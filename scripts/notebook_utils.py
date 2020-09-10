@@ -8,20 +8,20 @@ array_like: audio_sample: Audio File
 float: sampling_rate: Sampling rate in Hz
 [opt] headline: Headline of plots
 """
-def plot_fft(audio_sample, sampling_rate, headline='headline'):
+def plot_fft(audio_sample, sampling_rate):
     n = len(audio_sample)
     T = 1 / sampling_rate
 
     yf = scipy.fft.fft(audio_sample)
     xf = np.linspace(0.0, 1.0 / (2.0*T), n//2)
 
-    _, ax = plt.subplots()
-    ax.plot(xf, 2.0/n * np.abs(yf[:n//2]))
-    plt.grid()
-    plt.title(headline)
-    plt.xlabel("frequency")
-    plt.ylabel("magnitude")
-    return plt.show()
+    # plt.subplot()
+    # _, ax = plt.subplots()
+    # ax.plot(xf, 2.0/n * np.abs(yf[:n//2]))
+    # plt.grid()
+    # plt.xlabel("frequency")
+    # plt.ylabel("magnitude")
+    return xf, 2.0/n * np.abs(yf[:n//2])
 
 
 def plot_spectrogram(samples, sample_rate, stride_ms=10.0, window_ms=20.0, max_freq=None, eps=1e-14):
@@ -58,6 +58,12 @@ def plot_spectrogram(samples, sample_rate, stride_ms=10.0, window_ms=20.0, max_f
 
     return windows, specgram
 
+def librosa_specgrams(sample, sr):
+    D = np.abs(librosa.stft(sample, n_fft=2048,  hop_length=512))
+    DB = librosa.amplitude_to_db(D, ref=np.max)
+
+    librosa.display.specshow(DB, sr=sr, hop_length=512, x_axis='time', y_axis='log')
+    return plt.colorbar(format='%+2.0f dB')
 
 def plot_mel_filters(sr, n_fft=2048, n_mels=128, hop_length=512):
 
@@ -93,3 +99,16 @@ def plot_mel(sample, sr, n_fft=2048, hop_length=512, n_mels=128):
     librosa.display.specshow(S_DB, sr=sr, hop_length=hop_length, x_axis='time', y_axis='mel')
     
     return plt.colorbar(format='%+2.0f dB')
+
+
+def compare_diagrams(fn, **kwargs):
+    plt.figure(figsize=(15, 5))
+    plt.subplot(1, 2, 1)
+    fn(kwargs['sample_1'], kwargs['sr_1'])
+    plt.title(kwargs['title_1'])
+
+    plt.subplot(1, 2, 2)
+    fn(kwargs['sample_2'], kwargs['sr_2'])
+    plt.title(kwargs['title_2'])
+
+    return plt.tight_layout()
