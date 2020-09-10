@@ -3,12 +3,12 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-- [Objective](#objective)
-- [Pipeline](#pipeline)
-- [Get Started](#get-started)
-- [Frameworks](#frameworks)
-- [Acknowledgements](#acknowledgements)
+- [🚩 Objective](#-objective)
+- [👾 Pipeline](#-pipeline)
+- [🎬 Get Started](#-get-started)
+- [👀 Ideas & Insights on Evaluation](#-ideas--insights-on-evaluation)
+- [📚 Papers & Resources & Interesting Things](#-papers--resources--interesting-things)
+- [👏 Acknowledgements](#-acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
