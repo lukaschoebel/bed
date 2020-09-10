@@ -1,6 +1,7 @@
 import scipy
-import matplotlib.pyplot as plt
+import librosa
 import numpy as np
+import matplotlib.pyplot as plt
 
 """ Plots fast fourier transformation of provided audio file
 array_like: audio_sample: Audio File
@@ -56,3 +57,39 @@ def plot_spectrogram(samples, sample_rate, stride_ms=10.0, window_ms=20.0, max_f
     specgram = np.log(fft[:ind, :] + eps)
 
     return windows, specgram
+
+
+def plot_mel_filters(sr, n_fft=2048, n_mels=128, hop_length=512):
+
+    mel = librosa.filters.mel(sr=sr, n_fft=n_fft, n_mels=n_mels)
+    
+    plt.figure(figsize=(15, 4))
+    plt.subplot(1, 3, 1)
+    librosa.display.specshow(mel, sr=sr, hop_length=hop_length, x_axis='linear')
+    plt.ylabel('Mel Filter')
+    plt.colorbar()
+    plt.title('Filter Bank (Hz => mels)')
+
+    plt.subplot(1, 3, 2)
+    mel_10 = librosa.filters.mel(sr=sr, n_fft=n_fft, n_mels=10)
+    librosa.display.specshow(mel_10, sr=sr, hop_length=hop_length, x_axis='linear')
+    plt.ylabel('Mel Filter')
+    plt.colorbar()
+    plt.title('Filter Bank w/ 10 mels')
+
+    plt.subplot(1, 3, 3)
+    idxs_to_plot = [0, 9, 49, 99, 127]
+    for i in idxs_to_plot:
+        plt.plot(mel[i])
+    plt.legend(labels=[f'{i+1}' for i in idxs_to_plot])
+    plt.title('Triangular Filters')
+
+    return plt.tight_layout()
+
+
+def plot_mel(sample, sr, n_fft=2048, hop_length=512, n_mels=128):
+    S = librosa.feature.melspectrogram(sample, sr=sr, n_fft=n_fft, hop_length=hop_length, n_mels=n_mels)
+    S_DB = librosa.power_to_db(S, ref=np.max)
+    librosa.display.specshow(S_DB, sr=sr, hop_length=hop_length, x_axis='time', y_axis='mel')
+    
+    return plt.colorbar(format='%+2.0f dB')
