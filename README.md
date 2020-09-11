@@ -41,12 +41,17 @@ As a binary classification task, the overall objective of this project is to be 
 
 ## 📚 Papers & Resources & Interesting Things
 
-- [**Acoustic Detection and Identification of Insects in Soil**](https://www.ars.usda.gov/ARSUserFiles/3559/publications/685_1.pdf) by Mankin et Al. (1998)
-- [**Think DSP**](http://greenteapress.com/thinkdsp/thinkdsp.pdf) by Allen Downey (2014)
-- [**Automatic acoustic detection of birds through deep learning**](https://arxiv.org/pdf/1807.05812.pdf) by Stowell et Al. (2018)
-- [**Bulbul Bird Detection**](https://github.com/DCASE-REPO/bulbul_bird_detection_dcase2018) with 88.7% h.m.AUC for bird sounds by Thomas Grill et Al. (2018)
-- [**An End-to-End Trainable Neural Network for Image-based SequenceRecognition and Its Application to Scene Text Recognition**](https://arxiv.org/pdf/1507.05717.pdf) by Shi et Al. (2015)
-- [**CRNN**](https://github.com/meijieru/crnn.pytorch) by Jieru Mei (2019)
+- [*Acoustic Detection and Identification of Insects in Soil*](https://www.ars.usda.gov/ARSUserFiles/3559/publications/685_1.pdf) by Mankin et Al. (1998)
+- [*CNN Architectures for Large-Scale Audio Classification*](https://arxiv.org/pdf/1609.09430.pdf) by Hershey @ Google et Al. (2017)
+- [*Think DSP*](http://greenteapress.com/thinkdsp/thinkdsp.pdf) by Allen Downey (2014)
+- [*Automatic acoustic detection of birds through deep learning*](https://arxiv.org/pdf/1807.05812.pdf) by Stowell et Al. (2018)
+- [*Bulbul Bird Detection*](https://github.com/DCASE-REPO/bulbul_bird_detection_dcase2018) with 88.7% h.m.AUC for bird sounds by Thomas Grill et Al. (2018)
+- [*An End-to-End Trainable Neural Network for Image-based SequenceRecognition and Its Application to Scene Text Recognition*](https://arxiv.org/pdf/1507.05717.pdf) by Shi et Al. (2015)
+- [*CRNN*](https://github.com/meijieru/crnn.pytorch) by Jieru Mei (2019)
+- [*Sound Classification Using Convolutional NeuralNetwork and Tensor Deep Stacking Network*](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8605515) by Khamparia et Al. (2018)
+- Blog Entry on the [detection of seismic activity by utilizing CNNs on spectrograms](https://www.kaggle.com/michael422/spectrogram-convolution) by *michael422* (2019)
+- *Waveform-based End-to-end Deep Convolutional Neural Network with Multi-scale Sliding Windows for Weakly Labeled Sound Event Detection* by Lee et Al. (2020)
+- *Abnormal Heart Rhythm Detection Based on Spectrogram of Heart Sound using Convolutional Neural Network* by Wibawa et Al. (2018)
 
 ## 👏 Acknowledgements
 
