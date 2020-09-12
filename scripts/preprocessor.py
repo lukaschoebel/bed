@@ -13,7 +13,10 @@ matplotlib.use('Agg') # No pictures displayed
 class PreProcessor:
     def __init__(self, sample_path, frame_size=960, dir_path="../data/processed"):
         """
-        Initializes the PreProcessor class
+        Initializes the PreProcessor class for setting up training data.
+        
+        Here, audio samples are getting preprocessed and the respective spectrogram
+        of the chunks of frame_size ms are getting exported to the specified dir_path.
 
         Parameters
         ----------
