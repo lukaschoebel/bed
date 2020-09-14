@@ -48,7 +48,8 @@ def trigger_detection(PINS):
     Args:
         PIN_NO (int): Pin number on raspi zero board
     """
-    
+    global LED_PIN
+
     a, b = PINS
     infested_inp = GPIO.input(a)
     healthy_inp = GPIO.input(b)
@@ -64,12 +65,11 @@ def trigger_detection(PINS):
     
 
     if infested_inp or healthy_inp:
-        GPIO.output(LED_PIN,GPIO.HIGH)
+        GPIO.output(LED_PIN, GPIO.HIGH)
         # only update degree of infestiation and duration
         doc_ref.update({
-            u'duration': 5,
             u'infestation': random_number(infested=infested_status),
-            u'status': u'completed'
+            u'status': u'measure'
         })
 
     time.sleep(0.05)
