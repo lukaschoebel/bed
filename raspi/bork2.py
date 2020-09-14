@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import RPi.GPIO as GPIO
 import threading
 
@@ -36,8 +36,10 @@ class ButtonHandler(threading.Thread):
         self.lock.release()
 
 
-def real_cb(PIN):
-    print("detected")
+def real_cb(*args):
+    val = GPIO.input(pin)
+    if val == 1:
+        print("detected") 
 
 
 if __name__ == "__main__":
@@ -47,5 +49,6 @@ if __name__ == "__main__":
 
     cb = ButtonHandler(18, real_cb, edge='rising', bouncetime=100)
     cb.start()
-    
-    GPIO.add_event_detect(18, GPIO.RISING, callback=cb)
+
+    while True:
+        GPIO.add_event_detect(18, GPIO.RISING, callback=cb)
