@@ -50,5 +50,8 @@ if __name__ == "__main__":
     cb = ButtonHandler(18, real_cb, edge='rising', bouncetime=100)
     cb.start()
 
-    while True:
-        GPIO.add_event_detect(18, GPIO.RISING, callback=cb)
+    try:
+        while True:
+            GPIO.add_event_detect(18, GPIO.RISING, callback=cb)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
