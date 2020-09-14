@@ -14,7 +14,6 @@ class ButtonHandler(threading.Thread):
         self.func = func
         self.pin = pin
         self.bouncetime = float(bouncetime)/1000
-
         self.lastpinval = GPIO.input(self.pin)
         self.lock = threading.Lock()
 
@@ -43,9 +42,6 @@ class ButtonHandler(threading.Thread):
 def real_cb(PIN):
     val = GPIO.input(PIN)
     print("detected " + val) 
-    # val = GPIO.input(pin)
-    # if val == 1:
-    #     print("detected") 
 
 
 if __name__ == "__main__":
