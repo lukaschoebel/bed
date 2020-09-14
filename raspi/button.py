@@ -23,7 +23,6 @@ GPIO.setup(6, GPIO.OUT)    # set output for blue
 # red = GPIO.PWM(19, 75)      # create object red for PWM on port 17  
 # green = GPIO.PWM(16, 75)    # create object green for PWM on port 27   
 # blue = GPIO.PWM(6, 75)     # create object blue for PWM on port 22 
-LED_PIN = 19
 count = 0
 prev_inp = 1
 
@@ -48,7 +47,6 @@ def trigger_detection(PINS):
     Args:
         PIN_NO (int): Pin number on raspi zero board
     """
-    global LED_PIN
 
     a, b = PINS
     infested_inp = GPIO.input(a)
@@ -57,15 +55,19 @@ def trigger_detection(PINS):
     if infested_inp:
         print("tree infested :(")
         infested_status = True
-        LED_PIN = 19
+        GPIO.output(12, GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(12, GPIO.LOW)
     elif healthy_inp:
         print("tree healthy :)")
         infested_status = False
-        LED_PIN = 6
+        GPIO.output(19, GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(19, GPIO.LOW)
     
 
     if infested_inp or healthy_inp:
-        GPIO.output(LED_PIN, GPIO.HIGH)
+        
         # only update degree of infestiation and duration
         doc_ref.update({
             u'infestation': random_number(infested=infested_status),
@@ -73,7 +75,6 @@ def trigger_detection(PINS):
         })
 
     time.sleep(0.05)
-    GPIO.output(LED_PIN, GPIO.LOW)
 
 
 if __name__ == "__main__":
