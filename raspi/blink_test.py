@@ -12,7 +12,7 @@ def blink(pin):
     GPIO.output(pin, GPIO.HIGH)
     
 def turnOff(pin):
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     
@@ -67,10 +67,6 @@ def whiteOff():
     turnOff(redPin)
     turnOff(greenPin)
     turnOff(bluePin)
-    
-print("""Ensure the following GPIO connections: R-11, G-13, B-15
-Colors: Red, Green, Blue, Yellow, Cyan, Magenta, and White
-Use the format: color on/color off""")
 
 def main():
     while True:
