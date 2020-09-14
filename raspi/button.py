@@ -65,7 +65,6 @@ def blink(pin):
     time.sleep(5)
     turnOff(pin)
 
-
 def random_number(infested):
     """
     This function mocks the functionality of the detection.
