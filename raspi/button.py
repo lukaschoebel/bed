@@ -46,14 +46,14 @@ def measure_light(n_times):
 
     for _ in range(n_times):
         turnOn(BLUE)
-        time.sleep(0.6)
+        time.sleep(0.5)
         turnOff(BLUE)
         time.sleep(0.5)
     time.sleep(0.5)
 
 def blink(pin):
     time.sleep(0.15)
-    measure_light(4)
+    measure_light(6)
     
     for _ in range(3):
         turnOn(pin)
