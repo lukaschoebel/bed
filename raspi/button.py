@@ -11,8 +11,15 @@ db = firestore.client()
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 1
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 2
+GPIO.setup(19, GPIO.OUT)    # set output for red
+GPIO.setup(16, GPIO.OUT)    # set output for green
+GPIO.setup(6, GPIO.OUT)     # set output for blue
+
+# red = GPIO.PWM(19, 75)      # create object red for PWM on port 17  
+# green = GPIO.PWM(16, 75)    # create object green for PWM on port 27   
+# blue = GPIO.PWM(6, 75)     # create object blue for PWM on port 22 
 
 # reference to the firestore document
 doc_ref = db.collection(u'current_measure').document(u'0')
@@ -49,9 +56,24 @@ def trigger_detection(PINS):
     if infested_inp:
         print("tree infested :(")
         infested_status = True
+        red.start((reddc/2.55))   #start red led
+        GPIO.output(19,GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(19,GPIO.LOW)
+        time.sleep(0.5)
+        GPIO.output(19,GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(19,GPIO.LOW)
     elif healthy_inp:
         print("tree healthy :)")
         infested_status = False
+        GPIO.output(16,GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(16,GPIO.LOW)
+        time.sleep(0.5)
+        GPIO.output(16,GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(16,GPIO.LOW)
 
     if infested_inp or healthy_inp:
         # only update degree of infestiation and duration
@@ -71,5 +93,8 @@ if __name__ == "__main__":
         while True:
             trigger_detection((17, 18))
     except KeyboardInterrupt:
+        red.stop()   #stop red led
+        green.stop() #stop green led
+        blue.stop()  #stop blue led
         GPIO.cleanup()
     
