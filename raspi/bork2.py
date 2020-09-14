@@ -41,7 +41,11 @@ def real_cb(PIN):
 
 
 if __name__ == "__main__":
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
     cb = ButtonHandler(18, real_cb, edge='rising', bouncetime=100)
     cb.start()
+    
     GPIO.add_event_detect(18, GPIO.RISING, callback=cb)
