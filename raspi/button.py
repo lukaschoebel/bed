@@ -89,12 +89,12 @@ def trigger_detection(BUTTON_PINS):
 
     if infested_inp:
         print("tree infested :(")
-        t1 = threading.Thread(sendStatus, True)
-        t2 = threading.Thread(blink, args=RED)
+        t1 = threading.Thread(target=sendStatus, True)
+        t2 = threading.Thread(target=blink, args=RED)
     elif healthy_inp:
         print("tree healthy :)")
-        t1 = threading.Thread(sendStatus, False)
-        t1 = threading.Thread(blink, args=GREEN)
+        t1 = threading.Thread(target=sendStatus, False)
+        t1 = threading.Thread(target=blink, args=GREEN)
 
     if infested_inp or healthy_inp:
         t1.start()
