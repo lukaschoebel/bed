@@ -1,8 +1,9 @@
 #!/usr/bin/python
 import time
 import random
-import RPi.GPIO as GPIO
+import threading
 import firebase_admin
+import RPi.GPIO as GPIO
 from firebase_admin import credentials, firestore
 
 cred = credentials.Certificate("secrets/firestore-creds.json")
@@ -12,19 +13,46 @@ db = firestore.client()
 # reference to the firestore document
 doc_ref = db.collection(u'current_measure').document(u'0')
 
+RED = 12
+GREEN = 19
+BLUE = 6
+BUTTON_1 = 17
+BUTTON_2 = 18
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 1
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 2
-GPIO.setup(12, GPIO.OUT)     # set output for red
-GPIO.setup(19, GPIO.OUT)    # set output for green
-GPIO.setup(6, GPIO.OUT)    # set output for blue
+GPIO.setup(BUTTON_1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 1
+GPIO.setup(BUTTON_2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 2
+# GPIO.setup(12, GPIO.OUT)     # set output for red
+# GPIO.setup(19, GPIO.OUT)    # set output for green
+# GPIO.setup(6, GPIO.OUT)    # set output for blue
 
-# red = GPIO.PWM(19, 75)      # create object red for PWM on port 17  
-# green = GPIO.PWM(16, 75)    # create object green for PWM on port 27   
-# blue = GPIO.PWM(6, 75)     # create object blue for PWM on port 22 
 count = 0
 prev_inp = 1
+
+def turnOn(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+    
+def turnOff(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
+
+def blink(pin):
+    sleep(0.15)
+    for _ in range(0, 4):
+        turnOn(BLUE)
+        sleep(0.1)
+        turnOff(BLUE)
+        sleep(0.1)
+    
+    for _ in range(0, 3):
+        turnOn(pin)
+        sleep(0.2)
+        turnOff(pin)
+        sleep(0.2)
+
 
 def random_number(infested):
     """
@@ -40,7 +68,14 @@ def random_number(infested):
         return random.randint(51, 100)
     return random.randint(0, 50)
 
-def trigger_detection(PINS):
+def send_status(infested_status):
+    # only update degree of infestiation and status
+    doc_ref.update({
+        u'infestation': random_number(infested=infested_status),
+        u'status': u'measuring'
+    })
+
+def trigger_detection(BUTTON_PINS):
     """
     On button press, trigger the send process of the message.
 
@@ -48,32 +83,24 @@ def trigger_detection(PINS):
         PIN_NO (int): Pin number on raspi zero board
     """
 
-    a, b = PINS
+    a, b = BUTTON_PINS
     infested_inp = GPIO.input(a)
     healthy_inp = GPIO.input(b)
 
     if infested_inp:
         print("tree infested :(")
-        infested_status = True
-        GPIO.output(12, GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(12, GPIO.LOW)
+        t1 = threading.Thread(sendStatus, True)
+        t2 = threading.Thread(blink, args=RED)
     elif healthy_inp:
         print("tree healthy :)")
-        infested_status = False
-        GPIO.output(19, GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(19, GPIO.LOW)
+        t1 = threading.Thread(sendStatus, False)
+        t1 = threading.Thread(blink, args=GREEN)
     
+    t1.start()
+    t2.start()
 
-    if infested_inp or healthy_inp:
-        
-        # only update degree of infestiation and duration
-        doc_ref.update({
-            u'infestation': random_number(infested=infested_status),
-            u'status': u'measuring'
-        })
-
+    t1.join()
+    t2.join()
     time.sleep(0.05)
 
 
@@ -82,7 +109,7 @@ if __name__ == "__main__":
 
     try:
         while True:
-            trigger_detection((17, 18))
+            trigger_detection((BUTTON_1, BUTTON_2))
     except KeyboardInterrupt:
         GPIO.cleanup()
     
