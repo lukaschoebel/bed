@@ -41,13 +41,13 @@ def turnOff(pin):
 
 def blink(pin):
     sleep(0.15)
-    for _ in range(0, 4):
+    for _ in range(4):
         turnOn(BLUE)
         sleep(0.1)
         turnOff(BLUE)
         sleep(0.1)
     
-    for _ in range(0, 3):
+    for _ in range(3):
         turnOn(pin)
         sleep(0.2)
         turnOff(pin)
@@ -89,12 +89,12 @@ def trigger_detection(BUTTON_PINS):
 
     if infested_inp:
         print("tree infested :(")
-        t1 = threading.Thread(target=sendStatus, True)
-        t2 = threading.Thread(target=blink, args=RED)
+        t1 = threading.Thread(target=send_status, args=[True])
+        t2 = threading.Thread(target=blink, args=[RED])
     elif healthy_inp:
         print("tree healthy :)")
-        t1 = threading.Thread(target=sendStatus, False)
-        t1 = threading.Thread(target=blink, args=GREEN)
+        t1 = threading.Thread(target=send_status, args=[False])
+        t1 = threading.Thread(target=blink, args=[GREEN])
 
     if infested_inp or healthy_inp:
         t1.start()
