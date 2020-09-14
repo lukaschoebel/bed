@@ -48,27 +48,28 @@ def measure_light(n_times):
     """
 
     for _ in range(n_times):
-        turnOn(RED)
-        turnOn(GREEN)
-        time.sleep(0.7)
-        turnOn(RED)
-        turnOn(GREEN)
-        time.sleep(0.2)
+        turnOn(BLUE)
+        time.sleep(0.6)
+        turnOff(BLUE)
+        time.sleep(0.5)
 
 def blink(pin):
     # m1 = threading.Thread(measure_light, args=[4])
-    measure_light(4)
     time.sleep(0.15)
+    measure_light(4)
 
     # m1.start()
     # m1.join()
     
     for _ in range(3):
         turnOn(pin)
-        time.sleep(0.7)
+        time.sleep(1)
         turnOff(pin)
-        time.sleep(0.2)
-    
+        time.sleep(0.5)
+
+    turnOn(pin)
+    time.sleep(5)
+    turnOff(pin)
 
 
 def random_number(infested):
