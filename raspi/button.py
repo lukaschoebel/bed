@@ -9,21 +9,21 @@ cred = credentials.Certificate("secrets/firestore-creds.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+# reference to the firestore document
+doc_ref = db.collection(u'current_measure').document(u'0')
+
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 1
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 2
+GPIO.setup(12, GPIO.OUT)     # set output for red
 GPIO.setup(19, GPIO.OUT)    # set output for green
-GPIO.setup(12, GPIO.OUT)    # set output for blue
-GPIO.setup(6, GPIO.OUT)     # set output for red
+GPIO.setup(6, GPIO.OUT)    # set output for blue
 
 # red = GPIO.PWM(19, 75)      # create object red for PWM on port 17  
 # green = GPIO.PWM(16, 75)    # create object green for PWM on port 27   
 # blue = GPIO.PWM(6, 75)     # create object blue for PWM on port 22 
-
-# reference to the firestore document
-doc_ref = db.collection(u'current_measure').document(u'0')
-
+LED_PIN = 19
 count = 0
 prev_inp = 1
 
@@ -69,7 +69,7 @@ def trigger_detection(PINS):
         # only update degree of infestiation and duration
         doc_ref.update({
             u'infestation': random_number(infested=infested_status),
-            u'status': u'measure'
+            u'status': u'measuring'
         })
 
     time.sleep(0.05)
