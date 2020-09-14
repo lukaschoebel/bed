@@ -2,6 +2,10 @@
 import RPi.GPIO as GPIO
 import threading
 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 class ButtonHandler(threading.Thread):
     def __init__(self, pin, func, edge='both', bouncetime=200):
         super().__init__(daemon=True)
@@ -36,17 +40,15 @@ class ButtonHandler(threading.Thread):
         self.lock.release()
 
 
-def real_cb(*args):
-    val = GPIO.input(pin)
-    if val == 1:
-        print("detected") 
+def real_cb(PIN):
+    val = GPIO.input(PIN)
+    print("detected " + val) 
+    # val = GPIO.input(pin)
+    # if val == 1:
+    #     print("detected") 
 
 
 if __name__ == "__main__":
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
     cb = ButtonHandler(18, real_cb, edge='rising', bouncetime=100)
     cb.start()
 
