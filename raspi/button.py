@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 import time
 import random
 import RPi.GPIO as GPIO
@@ -47,8 +47,8 @@ def trigger_detection(PINS):
     infested_inp = GPIO.input(infested)
     healthy_inp = GPIO.input(healthy)
 
-    print(f"infested: {infested_inp}")
-    print(f"healthy: {healthy_inp}")
+    print("infested_inp: " + infested_inp)
+    print("healthy_inp: " + healthy_inp)
 
     # only update degree of infestiation and duration
     doc_ref.update({
@@ -57,7 +57,6 @@ def trigger_detection(PINS):
         u'status': u'completed'
     })
 
-    prev_inp = inp
     time.sleep(0.05)
 
 
