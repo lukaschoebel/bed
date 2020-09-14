@@ -56,26 +56,15 @@ def trigger_detection(PINS):
     if infested_inp:
         print("tree infested :(")
         infested_status = True
-        red.start((reddc/2.55))   #start red led
-        GPIO.output(19,GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(19,GPIO.LOW)
-        time.sleep(0.5)
-        GPIO.output(19,GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(19,GPIO.LOW)
+        LED_PIN = 19
     elif healthy_inp:
         print("tree healthy :)")
         infested_status = False
-        GPIO.output(16,GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(16,GPIO.LOW)
-        time.sleep(0.5)
-        GPIO.output(16,GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(16,GPIO.LOW)
+        LED_PIN = 16
+    
 
     if infested_inp or healthy_inp:
+        GPIO.output(LED_PIN,GPIO.HIGH)
         # only update degree of infestiation and duration
         doc_ref.update({
             u'duration': 5,
@@ -84,6 +73,7 @@ def trigger_detection(PINS):
         })
 
     time.sleep(0.05)
+    GPIO.output(LED_PIN, GPIO.LOW)
 
 
 if __name__ == "__main__":
@@ -93,8 +83,5 @@ if __name__ == "__main__":
         while True:
             trigger_detection((17, 18))
     except KeyboardInterrupt:
-        red.stop()   #stop red led
-        green.stop() #stop green led
-        blue.stop()  #stop blue led
         GPIO.cleanup()
     
