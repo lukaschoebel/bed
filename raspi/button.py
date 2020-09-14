@@ -47,15 +47,18 @@ def trigger_detection(PINS):
     infested_inp = GPIO.input(infested)
     healthy_inp = GPIO.input(healthy)
 
-    print("infested_inp: " + infested_inp)
-    print("healthy_inp: " + healthy_inp)
+    if infested_inp:
+        print("infested_inp: " + str(infested_inp))
+    elif healthy_inp:
+        print("healthy_inp: " + str(healthy_inp))
 
-    # only update degree of infestiation and duration
-    doc_ref.update({
-        u'duration': 5,
-        u'infestation': random_number(infested=True),
-        u'status': u'completed'
-    })
+    if infested_inp or healthy_inp:
+        # only update degree of infestiation and duration
+        doc_ref.update({
+            u'duration': 5,
+            u'infestation': random_number(infested=True),
+            u'status': u'completed'
+        })
 
     time.sleep(0.05)
 
