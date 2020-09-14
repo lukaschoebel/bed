@@ -40,18 +40,18 @@ def turnOff(pin):
     GPIO.output(pin, GPIO.LOW)
 
 def blink(pin):
-    sleep(0.15)
+    time.sleep(0.15)
     for _ in range(4):
         turnOn(BLUE)
-        sleep(0.1)
+        time.sleep(0.1)
         turnOff(BLUE)
-        sleep(0.1)
+        time.sleep(0.1)
     
     for _ in range(3):
         turnOn(pin)
-        sleep(0.2)
+        time.sleep(0.2)
         turnOff(pin)
-        sleep(0.2)
+        time.sleep(0.2)
 
 
 def random_number(infested):
