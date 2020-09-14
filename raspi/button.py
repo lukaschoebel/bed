@@ -42,21 +42,22 @@ def trigger_detection(PINS):
         PIN_NO (int): Pin number on raspi zero board
     """
     
-    infested, healthy = PINS
-
-    infested_inp = GPIO.input(infested)
-    healthy_inp = GPIO.input(healthy)
+    a, b = PINS
+    infested_inp = GPIO.input(a)
+    healthy_inp = GPIO.input(b)
 
     if infested_inp:
-        print("infested_inp: " + str(infested_inp))
+        print("tree infested :(")
+        infested_status = True
     elif healthy_inp:
-        print("healthy_inp: " + str(healthy_inp))
+        print("tree healthy :)")
+        infested_status = False
 
     if infested_inp or healthy_inp:
         # only update degree of infestiation and duration
         doc_ref.update({
             u'duration': 5,
-            u'infestation': random_number(infested=True),
+            u'infestation': random_number(infested=infested_status),
             u'status': u'completed'
         })
 

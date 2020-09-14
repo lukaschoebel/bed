@@ -68,6 +68,7 @@ def trigger_detection(PIN_NO):
     time.sleep(0.05)
 
 
+@DeprecationWarning
 if __name__ == "__main__":
     print("+++ borki initialized +++")
 
