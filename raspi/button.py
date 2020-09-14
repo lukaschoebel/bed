@@ -39,19 +39,36 @@ def turnOff(pin):
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
 
+def measure_light(n_times):
+    """
+    Yellow blinking measurement lights
+
+    Args:
+        n_times (int): Specifies the count of measure
+    """
+
+    for _ in range(n_times):
+        turnOn(RED)
+        turnOn(GREEN)
+        time.sleep(0.7)
+        turnOn(RED)
+        turnOn(GREEN)
+        time.sleep(0.2)
+
 def blink(pin):
+    # m1 = threading.Thread(measure_light, args=[4])
+    measure_light(4)
     time.sleep(0.15)
-    for _ in range(4):
-        turnOn(BLUE)
-        time.sleep(0.1)
-        turnOff(BLUE)
-        time.sleep(0.1)
+
+    # m1.start()
+    # m1.join()
     
     for _ in range(3):
         turnOn(pin)
-        time.sleep(0.2)
+        time.sleep(0.7)
         turnOff(pin)
         time.sleep(0.2)
+    
 
 
 def random_number(infested):
@@ -94,14 +111,14 @@ def trigger_detection(BUTTON_PINS):
     elif healthy_inp:
         print("tree healthy :)")
         t1 = threading.Thread(target=send_status, args=[False])
-        t1 = threading.Thread(target=blink, args=[GREEN])
+        t2 = threading.Thread(target=blink, args=[GREEN])
 
     if infested_inp or healthy_inp:
         t1.start()
         t2.start()
 
         t1.join()
-        t2.join()
+        # t2.join()
     time.sleep(0.05) # debouncing
 
 
