@@ -74,9 +74,7 @@ Use the format: color on/color off""")
 
 def main():
     while True:
-        cmd = raw_input("-->")
-
-
+        cmd = raw_input("--> ")
         if cmd == "red on":
             redOn()
         elif cmd == "red off":
@@ -107,10 +105,12 @@ def main():
             whiteOff()
         else:
             print("Not a valid command")
-        
-        
     return
-    
 
-main()
+if __name__ == "__main__":
+    print("+++ borki initialized +++")
+    try:
+        main()
+    except KeyboardInterrupt:
+        GPIO.cleanup()
     
