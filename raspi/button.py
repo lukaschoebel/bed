@@ -22,9 +22,6 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 1
 GPIO.setup(BUTTON_2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # button 2
-# GPIO.setup(12, GPIO.OUT)     # set output for red
-# GPIO.setup(19, GPIO.OUT)    # set output for green
-# GPIO.setup(6, GPIO.OUT)    # set output for blue
 
 count = 0
 prev_inp = 1
@@ -41,10 +38,10 @@ def turnOff(pin):
 
 def measure_light(n_times):
     """
-    Yellow blinking measurement lights
+    Blue blinking measurement lights
 
     Args:
-        n_times (int): Specifies the count of measure
+        n_times (int): Specifies the count of measure blinks
     """
 
     for _ in range(n_times):
@@ -52,14 +49,11 @@ def measure_light(n_times):
         time.sleep(0.6)
         turnOff(BLUE)
         time.sleep(0.5)
+    time.sleep(0.5)
 
 def blink(pin):
-    # m1 = threading.Thread(measure_light, args=[4])
     time.sleep(0.15)
     measure_light(4)
-
-    # m1.start()
-    # m1.join()
     
     for _ in range(3):
         turnOn(pin)
@@ -119,7 +113,6 @@ def trigger_detection(BUTTON_PINS):
         t2.start()
 
         t1.join()
-        # t2.join()
     time.sleep(0.05) # debouncing
 
 

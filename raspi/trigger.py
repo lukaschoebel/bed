@@ -82,12 +82,10 @@ def myInterrupt(channel):
     print(buttonTime)
 
     if .1 <= buttonTime < 2:    # Ignore noise
-        # buttonStatus = 1        # 1= brief push
-        print("healthy af :)")
+        print("healthy :)")
         infested = False
         rate = 1
     else:
-        # buttonStatus = 2        # 2= Long push
         print("not healthy :(")
         infested = True
         rate = 100
@@ -101,7 +99,7 @@ def myInterrupt(channel):
 
     time.sleep(0.05)
 
-
+@DeprecationWarning("deprecated")
 if __name__ == "__main__":
     # try:
     #     while True:
