@@ -19,10 +19,11 @@ scp -r pi@<IP-ADRESS>:<PATH/TO/FOLDER> <FOLDER/DEST>
 chmod 755 launch.sh
 
 # make log directory
-mkdir /home/logs
+mkdir /home/pi/logs
 
 # crontab
 sudo crontab -e
+## this line into crontab
 @reboot sh /home/pi/bed/raspi/launch.sh >/home/pi/logs/cronlog 2>&1
 sudo reboot now
 
