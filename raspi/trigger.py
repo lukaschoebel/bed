@@ -77,25 +77,29 @@ def myInterrupt(channel):
     while GPIO.input(channel) == 0:
         pass
 
-    time.sleep(0.05)
+
     buttonTime = time.time() - start_time    # How long was the button down?
-
-
     print(buttonTime)
+
     if .1 <= buttonTime < 2:    # Ignore noise
-        buttonStatus = 1        # 1= brief push
+        # buttonStatus = 1        # 1= brief push
         print("healthy af :)")
         infested = False
+        rate = 1
     else:
-        buttonStatus = 2        # 2= Long push
+        # buttonStatus = 2        # 2= Long push
         print("not healthy :(")
         infested = True
+        rate = 100
 
     doc_ref.update({
         u'duration': 5,
-        u'infestation': random_number(infested=infested),
+        # u'infestation': random_number(infested=infested),
+        u'infestation': rate,
         u'status': u'completed'
     })
+
+    time.sleep(0.05)
 
 
 if __name__ == "__main__":
@@ -104,7 +108,8 @@ if __name__ == "__main__":
     #         trigger_detection(PIN_NO=18)
     # except KeyboardInterrupt:
     #     GPIO.cleanup()
-    print("hi")
+    
+    print("+++ borki initialized +++")
     GPIO.add_event_detect(18, GPIO.FALLING, callback=myInterrupt, bouncetime=500)
     msg = input("press enter to exit\n")
     GPIO.cleanup()
