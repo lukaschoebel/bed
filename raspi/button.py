@@ -95,13 +95,14 @@ def trigger_detection(BUTTON_PINS):
         print("tree healthy :)")
         t1 = threading.Thread(sendStatus, False)
         t1 = threading.Thread(blink, args=GREEN)
-    
-    t1.start()
-    t2.start()
 
-    t1.join()
-    t2.join()
-    time.sleep(0.05)
+    if infested_inp or healthy_inp:
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
+    time.sleep(0.05) # debouncing
 
 
 if __name__ == "__main__":
