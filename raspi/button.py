@@ -76,8 +76,8 @@ def random_number(infested):
         infested (bool): [description]
     """
     if infested:
-        return random.randint(51, 100)
-    return random.randint(0, 50)
+        return random.randint(40, 100)
+    return 0 # healthy tree
 
 def send_status(infested_status):
     # only update degree of infestiation and status
