@@ -13,6 +13,9 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+# reference to the firestore document
+doc_ref = db.collection(u'current_measure').document(u'0')
+
 count = 0
 prev_inp = 1
 
@@ -30,7 +33,7 @@ def random_number(infested):
         return random.randint(51, 100)
     return random.randint(0, 50)
 
-def trigger_detection(PIN_NO, doc_ref):
+def trigger_detection(PIN_NO):
     """
     On button press, trigger the send process of the message.
 
@@ -66,14 +69,11 @@ def trigger_detection(PIN_NO, doc_ref):
 
 
 if __name__ == "__main__":
-    # reference to the firestore document
-    doc_ref = db.collection(u'current_measure').document(u'0')
-
     print("+++ borki initialized +++")
 
     try:
         while True:
-            trigger_detection(PIN_NO=18, doc_ref=doc_ref)
+            trigger_detection(18)
     except KeyboardInterrupt:
         GPIO.cleanup()
     
